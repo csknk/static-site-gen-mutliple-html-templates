@@ -2,6 +2,9 @@
 import sys
 from string import Template
 
+class CustomTemplate(Template):
+    delimiter = '@@'
+
 def insert(template, dest, content_partial, sidebar_partial, css_file):
     with open(content_partial, 'r') as f:
         content = f.read()
@@ -13,10 +16,11 @@ def insert(template, dest, content_partial, sidebar_partial, css_file):
             'css_file': css_file,
         }
     with open(template, "r") as f:
-        src = Template(f.read())
+        src = CustomTemplate(f.read())
         final = src.substitute(d)
     with open(dest, 'w') as f:
         f.write(final)
 
 if __name__ == '__main__':
+    #print(len(sys.argv))
     insert(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
